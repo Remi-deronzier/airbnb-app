@@ -6,7 +6,6 @@ import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 
-import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
@@ -50,11 +49,11 @@ export default function App() {
       {isLoading ? null : userToken === null ? ( // We haven't finished checking for the token yet
         // No token found, user isn't signed in
         <Stack.Navigator>
-          {/* <Stack.Screen name="SignIn">
-            {() => <SignInScreen setToken={setToken} />}
-          </Stack.Screen> */}
+          <Stack.Screen name="SignIn" options={{ headerShown: false }}>
+            {(props) => <SignInScreen {...props} setToken={setToken} />}
+          </Stack.Screen>
           <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-            {() => <SignUpScreen setToken={setToken} />}
+            {(props) => <SignUpScreen {...props} setToken={setToken} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (

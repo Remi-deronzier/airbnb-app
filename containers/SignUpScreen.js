@@ -18,7 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, navigation }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -48,7 +48,7 @@ export default function SignUpScreen({ setToken }) {
           if (response.data.token) {
             setOnSubmission(false);
             setToken(response.data.token);
-            alert("Succesful registration !");
+            alert("Succesful registration!");
           }
         } else {
           setErrorMessage("Passwords must be the same");
@@ -68,7 +68,7 @@ export default function SignUpScreen({ setToken }) {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Image
           style={styles.logoAirbnb}
@@ -113,13 +113,23 @@ export default function SignUpScreen({ setToken }) {
             style={styles.textInputPassword}
             secureTextEntry={isRevealedPassword}
           />
-          <Ionicons
-            style={styles.iconEye}
-            name="eye-outline"
-            size={24}
-            color="black"
-            onPress={() => setIsRevealedPassword(!isRevealedPassword)}
-          />
+          {isRevealedPassword ? (
+            <Ionicons
+              style={styles.iconEye}
+              name="eye-outline"
+              size={24}
+              color="black"
+              onPress={() => setIsRevealedPassword(!isRevealedPassword)}
+            />
+          ) : (
+            <Ionicons
+              name="eye-off-outline"
+              size={24}
+              color="black"
+              onPress={() => setIsRevealedPassword(!isRevealedPassword)}
+              style={styles.iconEye}
+            />
+          )}
         </View>
         <View style={styles.viewPassWord}>
           <TextInput
@@ -131,15 +141,27 @@ export default function SignUpScreen({ setToken }) {
             style={styles.textInputPassword}
             secureTextEntry={isRevealedConfirmedPassword}
           />
-          <Ionicons
-            style={styles.iconEye}
-            name="eye-outline"
-            size={24}
-            color="black"
-            onPress={() =>
-              setIsRevealedConfirmedPassword(!isRevealedConfirmedPassword)
-            }
-          />
+          {isRevealedConfirmedPassword ? (
+            <Ionicons
+              style={styles.iconEye}
+              name="eye-outline"
+              size={24}
+              color="black"
+              onPress={() =>
+                setIsRevealedConfirmedPassword(!isRevealedConfirmedPassword)
+              }
+            />
+          ) : (
+            <Ionicons
+              name="eye-off-outline"
+              size={24}
+              color="black"
+              onPress={() =>
+                setIsRevealedConfirmedPassword(!isRevealedConfirmedPassword)
+              }
+              style={styles.iconEye}
+            />
+          )}
         </View>
         <Text style={styles.textError}>{errorMessage}</Text>
         {onSubmission && (
@@ -156,15 +178,24 @@ export default function SignUpScreen({ setToken }) {
         >
           <Text style={styles.text}>Sign up</Text>
         </TouchableOpacity>
-        <Text style={[styles.text, styles.textAlreadyAnAccount]}>
-          Already an account? Sign in
-        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        >
+          <Text style={[styles.text, styles.textAlreadyAnAccount]}>
+            Already an account? Sign in
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   textInput: {
     borderBottomColor: `${COLORS.pinkColor}`,
     borderBottomWidth: 1,
