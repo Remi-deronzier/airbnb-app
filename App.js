@@ -49,11 +49,11 @@ export default function App() {
       {isLoading ? null : userToken === null ? ( // We haven't finished checking for the token yet
         // No token found, user isn't signed in
         <Stack.Navigator>
-          <Stack.Screen name="SignIn" options={{ headerShown: false }}>
-            {(props) => <SignInScreen {...props} setToken={setToken} />}
-          </Stack.Screen>
           <Stack.Screen name="SignUp" options={{ headerShown: false }}>
             {(props) => <SignUpScreen {...props} setToken={setToken} />}
+          </Stack.Screen>
+          <Stack.Screen name="SignIn" options={{ headerShown: false }}>
+            {(props) => <SignInScreen {...props} setToken={setToken} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
@@ -80,11 +80,7 @@ export default function App() {
                     <Stack.Navigator>
                       <Stack.Screen
                         name="Home"
-                        options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
-                        }}
+                        options={{ headerShown: false }}
                       >
                         {() => <HomeScreen />}
                       </Stack.Screen>
