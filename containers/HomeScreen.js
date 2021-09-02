@@ -3,16 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import RoomCard from "../components/RoomCard";
 import Header from "../components/Header";
 
-import {
-  Button,
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 
-import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import Constants from "expo-constants";
 import LottieView from "lottie-react-native";

@@ -5,6 +5,7 @@ import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
+import RoomScreen from "./containers/RoomScreen";
 
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -84,7 +85,12 @@ export default function App() {
                       >
                         {() => <HomeScreen />}
                       </Stack.Screen>
-
+                      <Stack.Screen
+                        name="Room"
+                        options={{ headerShown: false }}
+                      >
+                        {(props) => <RoomScreen {...props} />}
+                      </Stack.Screen>
                       <Stack.Screen
                         name="Profile"
                         options={{

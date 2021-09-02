@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 
+import RoomCard from "../components/RoomCard";
 import { COLORS } from "../assets/helpers/constants";
 
 import {
@@ -11,11 +12,32 @@ import {
   Image,
 } from "react-native";
 
+import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/core";
 
-export default function RoomCard({ item }) {
-  const navigation = useNavigation();
+export default function RoomScreen({ route }) {
+  const id = route.params.id;
+  console.log(id);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // animation.current.play();
+        const response = await axios.get(
+          `https://airbnb-api-remi.herokuapp.com/rental/${id}`
+        );
+        setData(response.data);
+        setIsLoading(false);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    };
+    fetchData();
+  }, []);
+  //   console.log(data);
 
   const displayStars = (ratingValue) => {
     const numberOfFullStars =
@@ -47,34 +69,34 @@ export default function RoomCard({ item }) {
     return tab;
   };
 
+  //   const animation = useRef(null);
+
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Room", { id: item._id })}
-    >
+    <View>
       <ImageBackground
-        source={{ uri: item.rental_image[0].secure_url }}
+        source={{ uri: data.rental_image[0].secure_url }}
         style={styles.image}
       >
         <View style={styles.priceView}>
-          <Text style={styles.textPrice}>{item.rental_price_one_night} €</Text>
+          <Text style={styles.textPrice}>{data.rental_price_one_night} €</Text>
         </View>
       </ImageBackground>
       <View style={styles.roomDetail}>
         <View style={styles.firstCall}>
           <Text style={styles.textTitle} numberOfLines={1}>
-            {item.rental_name}
+            {data.rental_name}
           </Text>
           <View style={styles.viewStarsAndReviews}>
-            {displayStars(item.rental_rating_value)}
-            <Text style={styles.textReview}>{item.rental_reviews} reviews</Text>
+            {displayStars(data.rental_rating_value)}
+            <Text style={styles.textReview}>{data.rental_reviews} reviews</Text>
           </View>
         </View>
         <Image
           style={styles.avatar}
-          source={{ uri: item.land_lord.account.avatar.secure_url }}
+          source={{ uri: data.land_lord.account.avatar.secure_url }}
         />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
