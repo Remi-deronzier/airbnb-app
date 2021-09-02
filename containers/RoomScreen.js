@@ -1,110 +1,127 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
-import RoomCard from "../components/RoomCard";
+import Header from "../components/Header";
 import { COLORS } from "../assets/helpers/constants";
+import { displayStars } from "../assets/helpers/helperFunctions";
 
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
   Image,
+  ActivityIndicator,
+  Dimensions,
 } from "react-native";
 
 import axios from "axios";
-import { Ionicons } from "@expo/vector-icons";
+import Constants from "expo-constants";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 
 export default function RoomScreen({ route }) {
   const id = route.params.id;
-  console.log(id);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
+  const [isRevealedDescription, setIsRevealedDescription] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // animation.current.play();
         const response = await axios.get(
           `https://airbnb-api-remi.herokuapp.com/rental/${id}`
         );
         setData(response.data);
         setIsLoading(false);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error.response.data);
-      }
+      } catch (error) {}
     };
     fetchData();
   }, []);
-  //   console.log(data);
 
-  const displayStars = (ratingValue) => {
-    const numberOfFullStars =
-      ratingValue - Math.floor(ratingValue) >= 0.25 &&
-      ratingValue - Math.floor(ratingValue) <= 0.75
-        ? Math.floor(ratingValue)
-        : Math.round(ratingValue);
-    const numberOfHalfStars =
-      ratingValue - Math.floor(ratingValue) >= 0.25 &&
-      ratingValue - Math.floor(ratingValue) <= 0.75
-        ? 1
-        : 0;
-    const tab = [];
-    for (let i = 0; i < numberOfFullStars; i++) {
-      tab.push(
-        <Ionicons name="star-sharp" size={24} color="#eba834" key={i} />
-      );
-    }
-    for (let i = 0; i < numberOfHalfStars; i++) {
-      tab.push(
-        <Ionicons
-          name="star-half-sharp"
-          size={24}
-          color="#eba834"
-          key={i + 10}
+  return isLoading ? (
+    <ActivityIndicator />
+  ) : (
+    <View style={styles.container}>
+      <Header />
+      <View style={styles.caroussel}>
+        <SwiperFlatList
+          autoplay={true}
+          autoplayDelay={5}
+          autoplayLoop={true}
+          data={data.rental_image}
+          renderItem={({ item }) => (
+            <Image source={{ uri: item.secure_url }} style={styles.image} />
+          )}
         />
-      );
-    }
-    return tab;
-  };
 
-  //   const animation = useRef(null);
-
-  return (
-    <View>
-      <ImageBackground
-        source={{ uri: data.rental_image[0].secure_url }}
-        style={styles.image}
-      >
         <View style={styles.priceView}>
           <Text style={styles.textPrice}>{data.rental_price_one_night} €</Text>
         </View>
-      </ImageBackground>
+      </View>
       <View style={styles.roomDetail}>
         <View style={styles.firstCall}>
-          <Text style={styles.textTitle} numberOfLines={1}>
-            {data.rental_name}
-          </Text>
-          <View style={styles.viewStarsAndReviews}>
-            {displayStars(data.rental_rating_value)}
-            <Text style={styles.textReview}>{data.rental_reviews} reviews</Text>
+          <View style={styles.rateAndTitle}>
+            <Text style={styles.textTitle} numberOfLines={1}>
+              {data.rental_name}
+            </Text>
+            <View style={styles.viewStarsAndReviews}>
+              {displayStars(data.rental_rating_value)}
+              <Text style={styles.textReview}>
+                {data.rental_reviews} reviews
+              </Text>
+            </View>
           </View>
+          <Image
+            style={styles.avatar}
+            source={{ uri: data.land_lord.account.avatar.secure_url }}
+          />
         </View>
-        <Image
-          style={styles.avatar}
-          source={{ uri: data.land_lord.account.avatar.secure_url }}
-        />
+        <View>
+          <Text numberOfLines={!isRevealedDescription ? 3 : null}>
+            {data.rental_description}
+          </Text>
+        </View>
+        {!isRevealedDescription ? (
+          <TouchableOpacity
+            style={styles.buttonHideAndShow}
+            onPress={() => setIsRevealedDescription(true)}
+          >
+            <Text style={styles.textShowAndHide}>Show More</Text>
+            <MaterialIcons
+              name="expand-more"
+              size={24}
+              color={`${COLORS.grayColor}`}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.buttonHideAndShow}
+            onPress={() => setIsRevealedDescription(false)}
+          >
+            <Text style={styles.textShowAndHide}>Show less</Text>
+            <MaterialIcons
+              name="expand-less"
+              size={24}
+              color={`${COLORS.grayColor}`}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
 }
 
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
-  image: {
-    height: 250,
+  container: {
     flex: 1,
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#fff",
+  },
+  image: {
     justifyContent: "flex-end",
+    width,
+    height: 300,
     marginBottom: 10,
   },
   priceView: {
@@ -114,6 +131,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
+    position: "absolute",
+    bottom: 10,
   },
   textPrice: {
     color: "#fff",
@@ -128,15 +147,16 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   roomDetail: {
-    flexDirection: "row",
-    width: "100%",
     justifyContent: "space-between",
-    paddingBottom: 10,
-    marginBottom: 10,
-    borderBottomColor: `${COLORS.grayColor}`,
-    borderBottomWidth: 1,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 10,
   },
   firstCall: {
+    marginBottom: 30,
+    flexDirection: "row",
+  },
+  rateAndTitle: {
     width: "70%",
     justifyContent: "space-between",
     paddingBottom: 10,
@@ -148,5 +168,15 @@ const styles = StyleSheet.create({
   viewStarsAndReviews: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  buttonHideAndShow: {
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  textShowAndHide: {
+    color: `${COLORS.grayColor}`,
+  },
+  caroussel: {
+    position: "relative",
   },
 });
