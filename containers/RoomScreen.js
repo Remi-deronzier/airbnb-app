@@ -39,7 +39,12 @@ export default function RoomScreen({ route }) {
   }, []);
 
   return isLoading ? (
-    <ActivityIndicator />
+    <ActivityIndicator
+      size="large"
+      size="large"
+      color={`${COLORS.pinkColor}`}
+      style={styles.containerLoader}
+    />
   ) : (
     <View style={styles.container}>
       <Header />
@@ -178,5 +183,10 @@ const styles = StyleSheet.create({
   },
   caroussel: {
     position: "relative",
+  },
+  containerLoader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -4,10 +4,13 @@ import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
-import SettingsScreen from "./containers/SettingsScreen";
+import AroundMeScreen from "./containers/AroundMeScreen";
 import RoomScreen from "./containers/RoomScreen";
 
+import { COLORS } from "./assets/helpers/constants";
+
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -64,7 +67,7 @@ export default function App() {
             {() => (
               <Tab.Navigator
                 tabBarOptions={{
-                  activeTintColor: "tomato",
+                  activeTintColor: `${COLORS.pinkColor}`,
                   inactiveTintColor: "gray",
                 }}
               >
@@ -103,25 +106,21 @@ export default function App() {
                   )}
                 </Tab.Screen>
                 <Tab.Screen
-                  name="Settings"
+                  name="AroundMe"
                   options={{
-                    tabBarLabel: "Settings",
+                    tabBarLabel: "Around me",
                     tabBarIcon: ({ color, size }) => (
-                      <Ionicons
-                        name={"ios-options"}
-                        size={size}
-                        color={color}
-                      />
+                      <AntDesign name="user" size={size} color={color} />
                     ),
                   }}
                 >
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen
-                        name="Settings"
-                        options={{ title: "Settings", tabBarLabel: "Settings" }}
+                        name="AroundMe"
+                        options={{ headerShown: false }}
                       >
-                        {() => <SettingsScreen setToken={setToken} />}
+                        {(props) => <AroundMeScreen {...props} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
