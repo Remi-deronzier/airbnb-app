@@ -11,6 +11,7 @@ import { COLORS } from "./assets/helpers/constants";
 
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -22,15 +23,18 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
-  const setToken = async (token) => {
+  const setToken = async (token, id) => {
     if (token) {
-      AsyncStorage.setItem("userToken", token);
+      await AsyncStorage.setItem("userToken", token);
+      await AsyncStorage.setItem("userId", id);
     } else {
-      AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userId");
     }
-
     setUserToken(token);
+    setUserId(id);
   };
 
   useEffect(() => {
@@ -38,13 +42,13 @@ export default function App() {
     const bootstrapAsync = async () => {
       // We should also handle error for production apps
       const userToken = await AsyncStorage.getItem("userToken");
-
+      const userId = await AsyncStorage.getItem("userId");
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       setIsLoading(false);
       setUserToken(userToken);
+      setUserId(userId);
     };
-
     bootstrapAsync();
   }, []);
 
@@ -85,22 +89,13 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{ headerShown: false }}
-                      >
-                        {() => <HomeScreen />}
-                      </Stack.Screen>
+                        component={HomeScreen}
+                      />
                       <Stack.Screen
                         name="Room"
                         options={{ headerShown: false }}
                       >
                         {(props) => <RoomScreen {...props} />}
-                      </Stack.Screen>
-                      <Stack.Screen
-                        name="Profile"
-                        options={{
-                          title: "User Profile",
-                        }}
-                      >
-                        {() => <ProfileScreen />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -110,7 +105,11 @@ export default function App() {
                   options={{
                     tabBarLabel: "Around me",
                     tabBarIcon: ({ color, size }) => (
-                      <AntDesign name="user" size={size} color={color} />
+                      <FontAwesome
+                        name="map-marker"
+                        size={size}
+                        color={color}
+                      />
                     ),
                   }}
                 >
@@ -121,6 +120,33 @@ export default function App() {
                         options={{ headerShown: false }}
                       >
                         {(props) => <AroundMeScreen {...props} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="Profile"
+                  options={{
+                    tabBarLabel: "My profile",
+                    tabBarIcon: ({ color, size }) => (
+                      <AntDesign name="user" size={size} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Profile"
+                        options={{ headerShown: false }}
+                      >
+                        {(props) => (
+                          <ProfileScreen
+                            {...props}
+                            id={userId}
+                            setToken={setToken}
+                            token={userToken}
+                          />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

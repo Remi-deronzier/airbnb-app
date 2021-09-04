@@ -38,80 +38,84 @@ export default function RoomScreen({ route }) {
     fetchData();
   }, []);
 
-  return isLoading ? (
-    <ActivityIndicator
-      size="large"
-      size="large"
-      color={`${COLORS.pinkColor}`}
-      style={styles.containerLoader}
-    />
-  ) : (
+  return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.caroussel}>
-        <SwiperFlatList
-          autoplay={true}
-          autoplayDelay={5}
-          autoplayLoop={true}
-          data={data.rental_image}
-          renderItem={({ item }) => (
-            <Image source={{ uri: item.secure_url }} style={styles.image} />
-          )}
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={`${COLORS.pinkColor}`}
+          style={styles.containerLoader}
         />
-
-        <View style={styles.priceView}>
-          <Text style={styles.textPrice}>{data.rental_price_one_night} €</Text>
-        </View>
-      </View>
-      <View style={styles.roomDetail}>
-        <View style={styles.firstCall}>
-          <View style={styles.rateAndTitle}>
-            <Text style={styles.textTitle} numberOfLines={1}>
-              {data.rental_name}
-            </Text>
-            <View style={styles.viewStarsAndReviews}>
-              {displayStars(data.rental_rating_value)}
-              <Text style={styles.textReview}>
-                {data.rental_reviews} reviews
+      ) : (
+        <>
+          <View style={styles.caroussel}>
+            <SwiperFlatList
+              autoplay={true}
+              autoplayDelay={5}
+              autoplayLoop={true}
+              data={data.rental_image}
+              renderItem={({ item }) => (
+                <Image source={{ uri: item.secure_url }} style={styles.image} />
+              )}
+            />
+            <View style={styles.priceView}>
+              <Text style={styles.textPrice}>
+                {data.rental_price_one_night} €
               </Text>
             </View>
           </View>
-          <Image
-            style={styles.avatar}
-            source={{ uri: data.land_lord.account.avatar.secure_url }}
-          />
-        </View>
-        <View>
-          <Text numberOfLines={!isRevealedDescription ? 3 : null}>
-            {data.rental_description}
-          </Text>
-        </View>
-        {!isRevealedDescription ? (
-          <TouchableOpacity
-            style={styles.buttonHideAndShow}
-            onPress={() => setIsRevealedDescription(true)}
-          >
-            <Text style={styles.textShowAndHide}>Show More</Text>
-            <MaterialIcons
-              name="expand-more"
-              size={24}
-              color={`${COLORS.grayColor}`}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.buttonHideAndShow}
-            onPress={() => setIsRevealedDescription(false)}
-          >
-            <Text style={styles.textShowAndHide}>Show less</Text>
-            <MaterialIcons
-              name="expand-less"
-              size={24}
-              color={`${COLORS.grayColor}`}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
+          <View style={styles.roomDetail}>
+            <View style={styles.firstCall}>
+              <View style={styles.rateAndTitle}>
+                <Text style={styles.textTitle} numberOfLines={1}>
+                  {data.rental_name}
+                </Text>
+                <View style={styles.viewStarsAndReviews}>
+                  {displayStars(data.rental_rating_value)}
+                  <Text style={styles.textReview}>
+                    {data.rental_reviews} reviews
+                  </Text>
+                </View>
+              </View>
+              <Image
+                style={styles.avatar}
+                source={{ uri: data.land_lord.account.avatar.secure_url }}
+              />
+            </View>
+            <View>
+              <Text numberOfLines={!isRevealedDescription ? 3 : null}>
+                {data.rental_description}
+              </Text>
+            </View>
+            {!isRevealedDescription ? (
+              <TouchableOpacity
+                style={styles.buttonHideAndShow}
+                onPress={() => setIsRevealedDescription(true)}
+              >
+                <Text style={styles.textShowAndHide}>Show More</Text>
+                <MaterialIcons
+                  name="expand-more"
+                  size={24}
+                  color={`${COLORS.grayColor}`}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.buttonHideAndShow}
+                onPress={() => setIsRevealedDescription(false)}
+              >
+                <Text style={styles.textShowAndHide}>Show less</Text>
+                <MaterialIcons
+                  name="expand-less"
+                  size={24}
+                  color={`${COLORS.grayColor}`}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -188,5 +192,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
 });

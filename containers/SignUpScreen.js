@@ -47,7 +47,7 @@ export default function SignUpScreen({ setToken, navigation }) {
           );
           if (response.data.token) {
             setOnSubmission(false);
-            setToken(response.data.token);
+            setToken(response.data.token, response.data.id_);
             alert("Succesful registration!");
           }
         } else {
@@ -176,7 +176,7 @@ export default function SignUpScreen({ setToken, navigation }) {
           style={styles.buttonSignup}
           disabled={onSubmission}
         >
-          <Text style={styles.text}>Sign up</Text>
+          <Text style={[styles.text, styles.textButton]}>Sign up</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   textArea: {
     width: "80%",
     borderColor: `${COLORS.pinkColor}`,
-    borderWidth: 2,
+    borderWidth: 1,
     height: 100,
     marginBottom: 40,
     paddingLeft: 10,
@@ -265,5 +265,8 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginBottom: 16,
+  },
+  textButton: {
+    fontSize: 20,
   },
 });

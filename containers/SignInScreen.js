@@ -39,7 +39,7 @@ export default function SignUpScreen({ setToken, navigation }) {
         );
         if (response.data.token) {
           setOnSubmission(false);
-          setToken(response.data.token);
+          setToken(response.data.token, response.data.id_);
           alert(`Welcome back ${response.data.account.username}!`);
         }
       } else {
@@ -112,7 +112,7 @@ export default function SignUpScreen({ setToken, navigation }) {
           style={styles.buttonSignin}
           disabled={onSubmission}
         >
-          <Text style={styles.text}>Sign in</Text>
+          <Text style={[styles.text, styles.textButton]}>Sign in</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
           <Text style={[styles.text, styles.textNoAccount]}>
@@ -187,5 +187,8 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginBottom: 16,
+  },
+  textButton: {
+    fontSize: 20,
   },
 });
