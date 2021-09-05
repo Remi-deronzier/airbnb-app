@@ -26,12 +26,15 @@ export default function ProfileScreen({ id, setToken, token }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [email, setEmail] = useState("");
+  const [isEmailChanged, setIsEmailChanged] = useState(false);
   const [username, setUsername] = useState("");
+  const [isUsernameChanged, setIsUsernameChanged] = useState(false);
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
-  const [uploadingImage, setUploadingImage] = useState(false);
+  const [isDescriptionChanged, setIsDescriptionChanged] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [isImageChanged, setIsImageChanged] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [onSubmission, setOnSubmission] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +48,7 @@ export default function ProfileScreen({ id, setToken, token }) {
         setDescription(response.data.account.description);
         setIsLoading(false);
       } catch (error) {
-        console.log(error.response.data);
+        console.log(error.response.data.message);
       }
     };
     fetchData();
@@ -53,44 +56,28 @@ export default function ProfileScreen({ id, setToken, token }) {
 
   const handleImagePicked = (pickerResult) => {
     if (!pickerResult.cancelled) {
-      setImage(pickerResult.uri);
+      setPreviewImage(pickerResult.uri);
+      setIsImageChanged(true);
     }
   };
 
-  const handleUpdate = useCallback(async (pickerResult) => {
-    let uploadResponse;
+  const handleUpdate = useCallback(async () => {
+    let uploadImageResponse;
+    let isUpadateSuccessful = true;
     try {
       setUploading(true);
-      if (!pickerResult.cancelled) {
-        // Note:
-        // Uncomment this if you want to experiment with local server
-        //
-        // if (Constants.isDevice) {
-        //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-        // } else {
-        //   apiUrl = `http://localhost:3000/upload`
-        // }
-
-        const uri = pickerResult.uri;
-
-        // Pour isoler l'extension du fichier, afin de connaitre son type (jpg, png...)
-        const uriParts = uri.split(".");
+      setErrorMessage("");
+      if (isImageChanged) {
+        // Enter in the condition only if the user has changed his image whether using the gallery or the camera
+        const uriParts = previewImage.split(".");
         const fileType = uriParts[uriParts.length - 1];
-
-        // FormData() va nous servir à envoyer un fichier en body de la requête
         const formData = new FormData();
-
-        // On ajoute à l'object formData une clé photo
         formData.append("picture", {
-          uri,
-          name: `photo.${fileType}`,
-          type: `image/${fileType}`, // la clé type doit être obligatoirement précisée en React Native
+          uri: previewImage,
+          name: "picture",
+          type: `prevpreviewImage/${fileType}`,
         });
-
-        // La requête pour envoyer l'image au serveur
-        uploadResponse = await axios.put(
-          // Ici, il faut envoyer l'id du user en query
-          // id rentré en dur dans l'exemple, mais doit être dynamique dans votre code
+        uploadImageResponse = await axios.put(
           `https://airbnb-api-remi.herokuapp.com/user/upload-picture/${id}`,
           formData,
           {
@@ -101,22 +88,66 @@ export default function ProfileScreen({ id, setToken, token }) {
             },
           }
         );
-        console.log(uploadResponse.data.photo[0].url);
-
-        if (
-          Array.isArray(uploadResponse.data.photo) === true &&
-          uploadResponse.data.photo.length > 0
-        ) {
-          setImage(uploadResponse.data.photo[0].url);
-        }
       }
-    } catch (e) {
-      // console.log({ uploadResponse });
-      // console.log({ uploadResult });
-      // console.log({ e });
-      alert("Upload failed, sorry :(");
+      const data = {};
+      // Many conditions to prevent to make useless updates when no fields have been changed by the user since last upload to the server
+      if (isEmailChanged) {
+        // only if the user update his email
+        data.email = email;
+      }
+      if (isUsernameChanged) {
+        // only if the user update his username
+        data.username = username;
+      }
+      if (isDescriptionChanged) {
+        // only if the user update his description
+        data.description = description;
+      }
+      const responseUpdateOtherFields = await axios.put(
+        "https://airbnb-api-remi.herokuapp.com/user/update",
+        data,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      // update all change checkers for email, description and username according to user modifications
+      setIsEmailChanged(email !== responseUpdateOtherFields.data.email);
+      setIsUsernameChanged(
+        username !== responseUpdateOtherFields.data.account.username
+      );
+      setIsDescriptionChanged(
+        description !== responseUpdateOtherFields.data.account.description
+      );
+    } catch (error) {
+      if (
+        error.response.data.message === "Missing parameters" &&
+        !isImageChanged
+      ) {
+        isUpadateSuccessful = false;
+        setErrorMessage("You must modify at least one field or your avatar");
+      }
+      if (
+        error.response.data.message === "Username already exists" &&
+        !isImageChanged
+      ) {
+        isUpadateSuccessful = false;
+        setErrorMessage("Username already exists");
+      }
+      if (
+        error.response.data.message === "Email already exists" &&
+        !isImageChanged
+      ) {
+        isUpadateSuccessful = false;
+        setErrorMessage("Email already exists");
+      }
     } finally {
+      if (isUpadateSuccessful) {
+        alert("Successful update");
+      }
       setUploading(false);
+      setIsImageChanged(false);
     }
   });
 
@@ -134,11 +165,13 @@ export default function ProfileScreen({ id, setToken, token }) {
           <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.pictureSection}>
               <View style={styles.avatarView}>
-                {data.account.avatar || image ? (
+                {data.account.avatar || previewImage ? (
                   <Image
                     style={styles.avatar}
                     source={{
-                      uri: image ? image : data.account.avatar.secure_url,
+                      uri: previewImage
+                        ? previewImage
+                        : data.account.avatar.secure_url,
                     }}
                     resizeMode="cover"
                   />
@@ -197,6 +230,7 @@ export default function ProfileScreen({ id, setToken, token }) {
             </View>
             <TextInput
               onChangeText={(text) => {
+                setIsEmailChanged(true);
                 setEmail(text);
               }}
               value={email}
@@ -206,6 +240,7 @@ export default function ProfileScreen({ id, setToken, token }) {
             />
             <TextInput
               onChangeText={(text) => {
+                setIsUsernameChanged(true);
                 setUsername(text);
               }}
               value={username}
@@ -215,6 +250,7 @@ export default function ProfileScreen({ id, setToken, token }) {
             <TextInput
               style={styles.textArea}
               onChangeText={(text) => {
+                setIsDescriptionChanged(true);
                 setDescription(text);
               }}
               value={description}
@@ -223,7 +259,7 @@ export default function ProfileScreen({ id, setToken, token }) {
               numberOfLines={10}
             />
             <Text style={styles.textError}>{errorMessage}</Text>
-            {onSubmission && (
+            {uploading && (
               <ActivityIndicator
                 size="large"
                 color={`${COLORS.pinkColor}`}
@@ -231,16 +267,15 @@ export default function ProfileScreen({ id, setToken, token }) {
               />
             )}
             <TouchableOpacity
-              // onPress={handleSubmit}
+              onPress={handleUpdate}
               style={styles.buttonSignin}
-              disabled={onSubmission}
+              disabled={uploading}
             >
               <Text style={[styles.text, styles.textButton]}>Update</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setToken(null, null)}
               style={[styles.buttonSignin, styles.buttonLogOut]}
-              disabled={onSubmission}
             >
               <Text style={[styles.text, styles.textButton]}>Log out</Text>
             </TouchableOpacity>
