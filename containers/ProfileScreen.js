@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import Header from "../components/Header";
 import SubmissionButton from "../components/SubmissionButton";
+import MyModal from "../components/MyModal";
 
 import { COLORS } from "../assets/helpers/constants";
 import { BUTTON } from "../assets/helpers/constants";
@@ -37,6 +38,7 @@ export default function ProfileScreen({ id, setToken, token }) {
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,7 +148,7 @@ export default function ProfileScreen({ id, setToken, token }) {
       }
     } finally {
       if (isUpadateSuccessful) {
-        alert("Successful update");
+        setShowModal(true);
       }
       setUploading(false);
       setIsImageChanged(false);
@@ -155,6 +157,13 @@ export default function ProfileScreen({ id, setToken, token }) {
 
   return (
     <View style={styles.container}>
+      <MyModal
+        text="Successful update 🎉"
+        modalVisible={showModal}
+        setModalVisible={setShowModal}
+        sucess={true}
+        welcome={false}
+      />
       <Header />
       {isLoading ? (
         <ActivityIndicator
@@ -267,7 +276,7 @@ export default function ProfileScreen({ id, setToken, token }) {
               text="Update"
             />
             <TouchableOpacity
-              onPress={() => setToken(null, null)}
+              onPress={() => setToken(null, null, null)}
               style={[BUTTON.button, styles.buttonLogOut]}
             >
               <Text style={BUTTON.text}>Log out</Text>

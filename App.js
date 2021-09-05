@@ -24,17 +24,23 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userUsername, setUserUsername] = useState(null);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showWelcomeBackModal, setShowWelcomeBackModal] = useState(false);
 
-  const setToken = async (token, id) => {
+  const setToken = async (token, id, username) => {
     if (token) {
       await AsyncStorage.setItem("userToken", token);
       await AsyncStorage.setItem("userId", id);
+      await AsyncStorage.setItem("userUsername", username);
     } else {
       await AsyncStorage.removeItem("userToken");
       await AsyncStorage.removeItem("userId");
+      await AsyncStorage.removeItem("userUsername");
     }
     setUserToken(token);
     setUserId(id);
+    setUserUsername(username);
   };
 
   useEffect(() => {
@@ -48,6 +54,7 @@ export default function App() {
       setIsLoading(false);
       setUserToken(userToken);
       setUserId(userId);
+      setUserUsername(userUsername);
     };
     bootstrapAsync();
   }, []);
@@ -58,10 +65,22 @@ export default function App() {
         // No token found, user isn't signed in
         <Stack.Navigator>
           <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-            {(props) => <SignUpScreen {...props} setToken={setToken} />}
+            {(props) => (
+              <SignUpScreen
+                {...props}
+                setToken={setToken}
+                setShowWelcomeModal={setShowWelcomeModal}
+              />
+            )}
           </Stack.Screen>
           <Stack.Screen name="SignIn" options={{ headerShown: false }}>
-            {(props) => <SignInScreen {...props} setToken={setToken} />}
+            {(props) => (
+              <SignInScreen
+                {...props}
+                setToken={setToken}
+                setShowWelcomeBackModal={setShowWelcomeBackModal}
+              />
+            )}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
@@ -89,8 +108,18 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{ headerShown: false }}
-                        component={HomeScreen}
-                      />
+                      >
+                        {(props) => (
+                          <HomeScreen
+                            {...props}
+                            username={userUsername}
+                            welcomeModalVisible={showWelcomeModal}
+                            welcomeBackModalVisible={showWelcomeBackModal}
+                            setWelcomeModalVisible={setShowWelcomeModal}
+                            setWelcomeBackModalVisible={setShowWelcomeBackModal}
+                          />
+                        )}
+                      </Stack.Screen>
                       <Stack.Screen
                         name="Room"
                         options={{ headerShown: false }}

@@ -19,7 +19,11 @@ import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignUpScreen({ setToken, navigation }) {
+export default function SignUpScreen({
+  setToken,
+  navigation,
+  setShowWelcomeModal,
+}) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -48,8 +52,12 @@ export default function SignUpScreen({ setToken, navigation }) {
           );
           if (response.data.token) {
             setOnSubmission(false);
-            setToken(response.data.token, response.data.id_);
-            alert("Succesful registration!");
+            setToken(
+              response.data.token,
+              response.data.id_,
+              response.data.account.username
+            );
+            setShowWelcomeModal(true);
           }
         } else {
           setErrorMessage("Passwords must be the same");

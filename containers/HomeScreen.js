@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import RoomCard from "../components/RoomCard";
 import Header from "../components/Header";
+import MyModal from "../components/MyModal";
 
 import { FlatList, View, StyleSheet } from "react-native";
 
@@ -9,7 +10,13 @@ import axios from "axios";
 import Constants from "expo-constants";
 import LottieView from "lottie-react-native";
 
-export default function HomeScreen() {
+export default function HomeScreen({
+  username,
+  welcomeModalVisible,
+  welcomeBackModalVisible,
+  setWelcomeModalVisible,
+  setWelcomeBackModalVisible,
+}) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,6 +40,20 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <MyModal
+        text={`Welcome ${username} 👋`}
+        modalVisible={welcomeModalVisible}
+        setModalVisible={setWelcomeModalVisible}
+        sucess={false}
+        welcome={true}
+      />
+      <MyModal
+        text={`Welcome back ${username} 👋`}
+        modalVisible={welcomeBackModalVisible}
+        setModalVisible={setWelcomeBackModalVisible}
+        sucess={false}
+        welcome={true}
+      />
       <Header />
       {isLoading ? (
         <View style={styles.animationContainer}>

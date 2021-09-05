@@ -219,10 +219,13 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   containerLoader: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#fff",
+    marginTop: Dimensions.get("window").height / 2,
+    transform: [
+      {
+        translateY: -100,
+      },
+    ],
   },
   map: {
     width: Dimensions.get("window").width,

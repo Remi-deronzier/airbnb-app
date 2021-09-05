@@ -19,7 +19,11 @@ import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignUpScreen({ setToken, navigation }) {
+export default function SignUpScreen({
+  setToken,
+  navigation,
+  setShowWelcomeBackModal,
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRevealedPassword, setIsRevealedPassword] = useState(true);
@@ -40,8 +44,12 @@ export default function SignUpScreen({ setToken, navigation }) {
         );
         if (response.data.token) {
           setOnSubmission(false);
-          setToken(response.data.token, response.data.id_);
-          alert(`Welcome back ${response.data.account.username}!`);
+          setToken(
+            response.data.token,
+            response.data.id_,
+            response.data.account.username
+          );
+          setShowWelcomeBackModal(true);
         }
       } else {
         setErrorMessage("All the fields must be filled in");
