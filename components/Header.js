@@ -2,15 +2,7 @@ import React from "react";
 
 import { COLORS } from "../assets/helpers/constants";
 
-import {
-  Button,
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Image,
-} from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 
 export default function Header() {
   return (
