@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 
 import { COLORS } from "../assets/helpers/constants";
+import { TEXT_DESCRIPTION } from "../assets/helpers/constants";
 import { displayStars } from "../assets/helpers/helperFunctions";
 
 import {
@@ -26,6 +27,7 @@ export default function RoomScreen({ route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [isRevealedDescription, setIsRevealedDescription] = useState(false);
+  const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
 
   const id = route.params.id;
 
@@ -92,35 +94,52 @@ export default function RoomScreen({ route }) {
                 />
               </View>
               <View>
-                <Text numberOfLines={!isRevealedDescription ? 3 : null}>
+                <Text
+                  numberOfLines={
+                    !isRevealedDescription
+                      ? TEXT_DESCRIPTION.numberOfLine
+                      : null
+                  }
+                  style={styles.textDescription}
+                  onLayout={(e) =>
+                    setIsDescriptionTooLong(
+                      e.nativeEvent.layout.height >
+                        TEXT_DESCRIPTION.fontSize *
+                          TEXT_DESCRIPTION.numberOfLine
+                    )
+                  }
+                >
                   {data.rental_description}
                 </Text>
               </View>
-              {!isRevealedDescription ? (
-                <TouchableOpacity
-                  style={styles.buttonHideAndShow}
-                  onPress={() => setIsRevealedDescription(true)}
-                >
-                  <Text style={styles.textShowAndHide}>Show More</Text>
-                  <MaterialIcons
-                    name="expand-more"
-                    size={24}
-                    color={`${COLORS.grayColor}`}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.buttonHideAndShow}
-                  onPress={() => setIsRevealedDescription(false)}
-                >
-                  <Text style={styles.textShowAndHide}>Show less</Text>
-                  <MaterialIcons
-                    name="expand-less"
-                    size={24}
-                    color={`${COLORS.grayColor}`}
-                  />
-                </TouchableOpacity>
-              )}
+              <View style={styles.containerDescription}>
+                {isDescriptionTooLong &&
+                  (!isRevealedDescription ? (
+                    <TouchableOpacity
+                      style={styles.buttonHideAndShow}
+                      onPress={() => setIsRevealedDescription(true)}
+                    >
+                      <Text style={styles.textShowAndHide}>Show More</Text>
+                      <MaterialIcons
+                        name="expand-more"
+                        size={24}
+                        color={`${COLORS.grayColor}`}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.buttonHideAndShow}
+                      onPress={() => setIsRevealedDescription(false)}
+                    >
+                      <Text style={styles.textShowAndHide}>Show less</Text>
+                      <MaterialIcons
+                        name="expand-less"
+                        size={24}
+                        color={`${COLORS.grayColor}`}
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </View>
             </View>
             <MapView
               style={styles.map}
@@ -203,13 +222,18 @@ const styles = StyleSheet.create({
     color: `${COLORS.grayColor}`,
     marginLeft: 10,
   },
+  containerDescription: {
+    marginBottom: 30,
+  },
+  textDescription: {
+    fontSize: TEXT_DESCRIPTION.fontSize,
+  },
   viewStarsAndReviews: {
     flexDirection: "row",
     alignItems: "center",
   },
   buttonHideAndShow: {
     flexDirection: "row",
-    marginTop: 10,
     marginBottom: 10,
   },
   textShowAndHide: {

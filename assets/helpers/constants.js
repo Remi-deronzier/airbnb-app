@@ -20,4 +20,9 @@ const BUTTON = {
   },
 };
 
-export { COLORS, BUTTON };
+const TEXT_DESCRIPTION = {
+  fontSize: 14,
+  numberOfLine: 3,
+};
+
+export { COLORS, BUTTON, TEXT_DESCRIPTION };
