@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import SubmissionButton from "../components/SubmissionButton";
+
 import { COLORS } from "../assets/helpers/constants";
 
 import {
@@ -10,7 +12,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ActivityIndicator,
 } from "react-native";
 
 import axios from "axios";
@@ -164,28 +165,18 @@ export default function SignUpScreen({ setToken, navigation }) {
           )}
         </View>
         <Text style={styles.textError}>{errorMessage}</Text>
-        {onSubmission && (
-          <ActivityIndicator
-            size="large"
-            color={`${COLORS.pinkColor}`}
-            style={styles.loader}
-          />
-        )}
+        <SubmissionButton
+          uploading={onSubmission}
+          handleUpdate={handleSubmit}
+          text="Sign up"
+        />
         <TouchableOpacity
-          onPress={handleSubmit}
-          style={styles.buttonSignup}
-          disabled={onSubmission}
-        >
-          <Text style={[styles.text, styles.textButton]}>Sign up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          style={styles.buttonAlreadyAnAccount}
           onPress={() => {
             navigation.navigate("SignIn");
           }}
         >
-          <Text style={[styles.text, styles.textAlreadyAnAccount]}>
-            Already an account? Sign in
-          </Text>
+          <Text style={styles.text}>Already an account? Sign in</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAwareScrollView>
@@ -238,18 +229,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginBottom: 30,
   },
-  buttonSignup: {
-    borderColor: `${COLORS.pinkColor}`,
-    borderWidth: 3,
-    height: 45,
-    width: 180,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    marginBottom: 20,
-  },
-  textAlreadyAnAccount: {
+  buttonAlreadyAnAccount: {
     marginBottom: 100,
+    padding: 20,
   },
   textError: {
     color: `${COLORS.pinkColor}`,
@@ -265,8 +247,5 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginBottom: 16,
-  },
-  textButton: {
-    fontSize: 20,
   },
 });

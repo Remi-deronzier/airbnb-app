@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import SubmissionButton from "../components/SubmissionButton";
+
 import { COLORS } from "../assets/helpers/constants";
 
 import {
@@ -10,7 +12,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ActivityIndicator,
 } from "react-native";
 
 import axios from "axios";
@@ -100,24 +101,16 @@ export default function SignUpScreen({ setToken, navigation }) {
           )}
         </View>
         <Text style={styles.textError}>{errorMessage}</Text>
-        {onSubmission && (
-          <ActivityIndicator
-            size="large"
-            color={`${COLORS.pinkColor}`}
-            style={styles.loader}
-          />
-        )}
+        <SubmissionButton
+          uploading={onSubmission}
+          handleUpdate={handleSubmit}
+          text="Sign in"
+        />
         <TouchableOpacity
-          onPress={handleSubmit}
-          style={styles.buttonSignin}
-          disabled={onSubmission}
+          onPress={() => navigation.navigate("SignUp")}
+          style={styles.buttonNoAccount}
         >
-          <Text style={[styles.text, styles.textButton]}>Sign in</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-          <Text style={[styles.text, styles.textNoAccount]}>
-            No account? Register
-          </Text>
+          <Text style={styles.text}>No account? Register</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAwareScrollView>
@@ -160,18 +153,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginBottom: 30,
   },
-  buttonSignin: {
-    borderColor: `${COLORS.pinkColor}`,
-    borderWidth: 3,
-    height: 45,
-    width: 180,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    marginBottom: 20,
-  },
-  textNoAccount: {
+  buttonNoAccount: {
     marginBottom: 100,
+    padding: 20,
   },
   textError: {
     color: `${COLORS.pinkColor}`,
@@ -187,8 +171,5 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginBottom: 16,
-  },
-  textButton: {
-    fontSize: 20,
   },
 });

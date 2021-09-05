@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import Header from "../components/Header";
+import SubmissionButton from "../components/SubmissionButton";
 
 import { COLORS } from "../assets/helpers/constants";
+import { BUTTON } from "../assets/helpers/constants";
 
 import {
   Text,
@@ -259,25 +261,16 @@ export default function ProfileScreen({ id, setToken, token }) {
               numberOfLines={10}
             />
             <Text style={styles.textError}>{errorMessage}</Text>
-            {uploading && (
-              <ActivityIndicator
-                size="large"
-                color={`${COLORS.pinkColor}`}
-                style={styles.loader}
-              />
-            )}
-            <TouchableOpacity
-              onPress={handleUpdate}
-              style={styles.buttonSignin}
-              disabled={uploading}
-            >
-              <Text style={[styles.text, styles.textButton]}>Update</Text>
-            </TouchableOpacity>
+            <SubmissionButton
+              uploading={uploading}
+              handleUpdate={handleUpdate}
+              text="Update"
+            />
             <TouchableOpacity
               onPress={() => setToken(null, null)}
-              style={[styles.buttonSignin, styles.buttonLogOut]}
+              style={[BUTTON.button, styles.buttonLogOut]}
             >
-              <Text style={[styles.text, styles.textButton]}>Log out</Text>
+              <Text style={BUTTON.text}>Log out</Text>
             </TouchableOpacity>
           </ScrollView>
         </KeyboardAwareScrollView>
@@ -338,28 +331,9 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     justifyContent: "space-between",
   },
-  text: {
-    color: "gray",
-  },
-  textButton: {
-    fontSize: 20,
-  },
-  buttonSignin: {
-    borderColor: `${COLORS.pinkColor}`,
-    borderWidth: 3,
-    height: 45,
-    width: 180,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    marginBottom: 20,
-  },
   textError: {
     color: `${COLORS.pinkColor}`,
     marginBottom: 10,
-  },
-  loader: {
-    marginBottom: 16,
   },
   containerLoader: {
     flex: 1,

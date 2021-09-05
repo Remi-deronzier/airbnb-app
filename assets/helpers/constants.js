@@ -3,4 +3,21 @@ const COLORS = {
   grayColor: "#c1bdbd",
 };
 
-export { COLORS };
+const BUTTON = {
+  button: {
+    borderColor: `${COLORS.pinkColor}`,
+    borderWidth: 3,
+    height: 45,
+    width: 180,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  text: {
+    color: "gray",
+    fontSize: 20,
+  },
+};
+
+export { COLORS, BUTTON };
