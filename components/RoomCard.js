@@ -19,6 +19,7 @@ export default function RoomCard({ item }) {
 
   return (
     <TouchableOpacity
+      style={styles.container}
       onPress={() => navigation.navigate("Room", { id: item._id })}
     >
       <ImageBackground
@@ -49,6 +50,11 @@ export default function RoomCard({ item }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+  },
   image: {
     height: 250,
     flex: 1,
@@ -80,7 +86,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     paddingBottom: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     borderBottomColor: `${COLORS.grayColor}`,
     borderBottomWidth: 1,
   },

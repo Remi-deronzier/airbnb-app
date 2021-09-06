@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import RoomCard from "../components/RoomCard";
 import Header from "../components/Header";
 import MyModal from "../components/MyModal";
+import FooterFlatList from "../components/FooterFlatList";
 
 import { FlatList, View, StyleSheet } from "react-native";
 
@@ -65,10 +66,10 @@ export default function HomeScreen({
         </View>
       ) : (
         <FlatList
-          style={styles.containerFlatList}
           data={data.rooms}
           keyExtractor={(item) => String(item._id)}
           renderItem={({ item }) => <RoomCard item={item} />}
+          ListFooterComponent={<FooterFlatList />}
         />
       )}
     </View>
@@ -80,9 +81,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Constants.statusBarHeight,
     backgroundColor: "#fff",
-  },
-  containerFlatList: {
-    padding: 20,
   },
   animationContainer: {
     backgroundColor: "#fff",
