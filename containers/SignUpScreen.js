@@ -37,7 +37,7 @@ export default function SignUpScreen({
 
   const handleSubmit = async () => {
     try {
-      if (email && password && confirmedPassword && description) {
+      if (email && password && confirmedPassword && description && username) {
         if (password === confirmedPassword) {
           setErrorMessage("");
           setOnSubmission(true);
