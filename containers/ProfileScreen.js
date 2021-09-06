@@ -65,7 +65,6 @@ export default function ProfileScreen({ id, setToken, token }) {
   };
 
   const handleUpdate = useCallback(async () => {
-    let uploadImageResponse;
     let isUpadateSuccessful = true;
     try {
       setUploading(true);
@@ -80,7 +79,7 @@ export default function ProfileScreen({ id, setToken, token }) {
           name: "picture",
           type: `prevpreviewImage/${fileType}`,
         });
-        uploadImageResponse = await axios.put(
+        await axios.put(
           `https://airbnb-api-remi.herokuapp.com/user/upload-picture/${id}`,
           formData,
           {
@@ -171,7 +170,7 @@ export default function ProfileScreen({ id, setToken, token }) {
           style={styles.containerLoader}
         />
       ) : (
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView extraHeight={50}>
           <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.pictureSection}>
               <View style={styles.avatarView}>

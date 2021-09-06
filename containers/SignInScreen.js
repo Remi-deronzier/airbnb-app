@@ -63,7 +63,10 @@ export default function SignUpScreen({
   };
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.container}
+      extraHeight={50}
+    >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Image
           style={styles.logoAirbnb}
