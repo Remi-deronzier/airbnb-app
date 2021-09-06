@@ -7,7 +7,6 @@ import { View, StyleSheet, ActivityIndicator } from "react-native";
 import MapView from "react-native-maps";
 import { Callout } from "react-native-maps";
 import { Marker } from "react-native-maps";
-import Constants from "expo-constants";
 import * as Location from "expo-location";
 import axios from "axios";
 
@@ -97,7 +96,6 @@ export default function AroundMeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
   },
   containerLoader: {
     flex: 1,

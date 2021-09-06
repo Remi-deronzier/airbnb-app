@@ -20,7 +20,6 @@ import {
 
 import axios from "axios";
 import { MaterialIcons } from "@expo/vector-icons";
-import Constants from "expo-constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Avatar } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
@@ -291,7 +290,6 @@ export default function ProfileScreen({ id, setToken, token }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: "#fff",
   },
   textInput: {

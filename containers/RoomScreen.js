@@ -17,7 +17,6 @@ import {
 } from "react-native";
 
 import axios from "axios";
-import Constants from "expo-constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import MapView from "react-native-maps";
@@ -169,7 +168,6 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: "#fff",
   },
   image: {

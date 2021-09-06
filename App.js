@@ -9,6 +9,8 @@ import RoomScreen from "./containers/RoomScreen";
 
 import { COLORS } from "./assets/helpers/constants";
 
+import { StatusBar } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -61,6 +63,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor={`${COLORS.pinkColor}`} />
       {isLoading ? null : userToken === null ? ( // We haven't finished checking for the token yet
         // No token found, user isn't signed in
         <Stack.Navigator>

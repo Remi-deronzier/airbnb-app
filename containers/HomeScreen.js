@@ -8,7 +8,6 @@ import FooterFlatList from "../components/FooterFlatList";
 import { FlatList, View, StyleSheet } from "react-native";
 
 import axios from "axios";
-import Constants from "expo-constants";
 import LottieView from "lottie-react-native";
 
 export default function HomeScreen({
@@ -92,7 +91,6 @@ export default function HomeScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: "#fff",
   },
   animationContainer: {
