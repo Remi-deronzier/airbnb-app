@@ -21,7 +21,6 @@ const BUTTON = {
 };
 
 const TEXT_DESCRIPTION = {
-  fontSize: 14,
   numberOfLine: 3,
 };
 

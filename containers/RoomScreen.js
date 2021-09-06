@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Header from "../components/Header";
 
@@ -31,6 +31,12 @@ export default function RoomScreen({ route }) {
 
   const id = route.params.id;
 
+  const myLayout = useCallback((e) => {
+    setIsDescriptionTooLong(
+      e.nativeEvent.lines.length > TEXT_DESCRIPTION.numberOfLine
+    );
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,7 +45,9 @@ export default function RoomScreen({ route }) {
         );
         setData(response.data);
         setIsLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        alert(error.response.data.message);
+      }
     };
     fetchData();
   }, []);
@@ -93,25 +101,14 @@ export default function RoomScreen({ route }) {
                   source={{ uri: data.land_lord.account.avatar.secure_url }}
                 />
               </View>
-              <View>
-                <Text
-                  numberOfLines={
-                    !isRevealedDescription
-                      ? TEXT_DESCRIPTION.numberOfLine
-                      : null
-                  }
-                  style={styles.textDescription}
-                  onLayout={(e) =>
-                    setIsDescriptionTooLong(
-                      e.nativeEvent.layout.height >
-                        TEXT_DESCRIPTION.fontSize *
-                          TEXT_DESCRIPTION.numberOfLine
-                    )
-                  }
-                >
-                  {data.rental_description}
-                </Text>
-              </View>
+              <Text
+                onTextLayout={(e) => myLayout(e)}
+                numberOfLines={
+                  !isRevealedDescription ? TEXT_DESCRIPTION.numberOfLine : null
+                }
+              >
+                {data.rental_description}
+              </Text>
               <View style={styles.containerDescription}>
                 {isDescriptionTooLong &&
                   (!isRevealedDescription ? (
@@ -224,9 +221,6 @@ const styles = StyleSheet.create({
   },
   containerDescription: {
     marginBottom: 30,
-  },
-  textDescription: {
-    fontSize: TEXT_DESCRIPTION.fontSize,
   },
   viewStarsAndReviews: {
     flexDirection: "row",
