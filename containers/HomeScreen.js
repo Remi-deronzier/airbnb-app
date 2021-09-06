@@ -20,22 +20,33 @@ export default function HomeScreen({
 }) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const animation = useRef(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+  const fetchData = async () => {
+    try {
+      if (animation.current) {
         animation.current.play();
-        const response = await axios.get(
-          "https://airbnb-api-remi.herokuapp.com/rentals"
-        );
-        setData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error.response.data);
       }
-    };
+      const response = await axios.get(
+        "https://airbnb-api-remi.herokuapp.com/rentals"
+      );
+      setData(response.data);
+      setIsLoading(false);
+      setIsRefreshing(false);
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data);
+    }
+  };
+
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    fetchData();
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -70,6 +81,8 @@ export default function HomeScreen({
           keyExtractor={(item) => String(item._id)}
           renderItem={({ item }) => <RoomCard item={item} />}
           ListFooterComponent={<FooterFlatList />}
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
         />
       )}
     </View>
