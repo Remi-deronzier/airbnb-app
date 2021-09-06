@@ -12,6 +12,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Platform,
 } from "react-native";
 
 import axios from "axios";
@@ -179,6 +180,7 @@ const styles = StyleSheet.create({
   iconEye: {
     position: "absolute",
     right: 0,
+    top: Platform.OS === "ios" ? -10 : 0,
   },
   loader: {
     marginBottom: 16,
