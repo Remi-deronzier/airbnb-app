@@ -22,10 +22,6 @@ export default function AroundMeScreen({ navigation }) {
   const [coords, setCoords] = useState({});
   const [data, setData] = useState([]);
 
-  // const descriptionFormatting = (str) => {
-  //   console.log(str)
-  // }
-
   useEffect(() => {
     const askPermission = async () => {
       try {
