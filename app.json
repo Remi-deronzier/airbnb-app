@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "NavApp",
-    "slug": "NavApp",
+    "name": "Airbnb Remi",
+    "description": "Airbnb Remi is a replica of the famous Airbnb app",
+    "slug": "airbnb-remi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
