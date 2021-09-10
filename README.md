@@ -5,6 +5,16 @@
   <img src="https://user-images.githubusercontent.com/49198371/132868632-758af223-5fca-4ade-87c1-9b25b6f0fa31.gif" alt="airbnb-demo"/>
 </p>
 
+## Demo
+1. First you must install the `Expo Go` app on your phone:
+* 👉 Android: [Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent)
+* 👉 iOS: [Expo go](https://apps.apple.com/fr/app/expo-go/id982107779)
+3. Then, go to this [page](https://expo.dev/@remi-airbnb/airbnb-remi) to check the app
+Note that if you've got an Iphone, you must log to the following Expo account : 
+* ID : remi-airbnb
+* Password : $7.$.Cmspy7fGHY
+
+
 ## Overview
 Replica of Airbnb app. 3 screens are availables : Home, Around Me and My profile. No frameworks UI like Bootstrap or Material UI are used.
 
