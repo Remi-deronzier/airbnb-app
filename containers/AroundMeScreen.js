@@ -27,9 +27,22 @@ export default function AroundMeScreen({ navigation }) {
       try {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status === "granted") {
-          let location = await Location.getCurrentPositionAsync({
-            accuracy: Location.Accuracy.High,
-          });
+          let location;
+          try {
+            location = await Location.getCurrentPositionAsync({
+              accuracy: Location.Accuracy.BestForNavigation,
+              LocationActivityType: Location.ActivityType.OtherNavigation,
+              maximumAge: 5000,
+              timeout: 15000,
+            });
+          } catch {
+            location = await Location.getLastKnownPositionAsync({
+              accuracy: Location.Accuracy.BestForNavigation,
+              LocationActivityType: Location.ActivityType.OtherNavigation,
+              maxAge: 5000,
+              timeout: 15000,
+            });
+          }
           const obj = {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,

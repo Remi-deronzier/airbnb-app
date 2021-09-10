@@ -77,7 +77,7 @@ export default function SignUpScreen({
   };
 
   return (
-    <KeyboardAwareScrollView style={styles.container} extraHeight={50}>
+    <KeyboardAwareScrollView extraHeight={50} enableOnAndroid={true}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Image
           style={styles.logoAirbnb}
@@ -192,9 +192,6 @@ export default function SignUpScreen({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   textInput: {
     borderBottomColor: `${COLORS.pinkColor}`,
     borderBottomWidth: 1,

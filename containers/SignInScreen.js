@@ -67,6 +67,7 @@ export default function SignUpScreen({
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
       extraHeight={50}
+      enableOnAndroid={true}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Image

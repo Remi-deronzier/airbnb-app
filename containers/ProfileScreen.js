@@ -170,7 +170,11 @@ export default function ProfileScreen({ id, setToken, token }) {
           style={styles.containerLoader}
         />
       ) : (
-        <KeyboardAwareScrollView extraHeight={50}>
+        <KeyboardAwareScrollView
+          extraHeight={50}
+          enableOnAndroid={true}
+          viewIsInsideTabBar={true}
+        >
           <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.pictureSection}>
               <View style={styles.avatarView}>
