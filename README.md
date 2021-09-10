@@ -3,6 +3,7 @@
 ---
 
 # Airbnb clone - React Native / Expo
-![airbnb-demo](https://user-images.githubusercontent.com/49198371/132867753-dcab0500-b03e-4853-96ed-cc585f174580.gif)
+![airbnb-demo](https://user-images.githubusercontent.com/49198371/132868632-758af223-5fca-4ade-87c1-9b25b6f0fa31.gif)
+
 
 
