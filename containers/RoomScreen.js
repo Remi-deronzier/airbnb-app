@@ -49,7 +49,7 @@ export default function RoomScreen({ route }) {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <View style={styles.container}>
