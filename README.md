@@ -9,8 +9,9 @@
 1. First you must install the `Expo Go` app on your phone:
 * 👉 Android: [Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent)
 * 👉 iOS: [Expo go](https://apps.apple.com/fr/app/expo-go/id982107779)
-3. Then, go to this [page](https://expo.dev/@remi-airbnb/airbnb-remi) to check the app
-Note that if you've got an Iphone, you must log to the following Expo account : 
+2. Then, go to this [page](https://expo.dev/@remi-airbnb/airbnb-remi) to check the app
+
+Note that if you've got an Iphone, you must log to the following `Expo` account : 
 * ID : remi-airbnb
 * Password : $7.$.Cmspy7fGHY
 
@@ -30,18 +31,18 @@ Be sure, you have installed all dependencies and applications to run React Nativ
 
 ### Running the project
 Clone this repository:
-```bash
+```
 git clone https://github.com/Remi-deronzier/airbnb-app.git
 cd airbnb-app
 ```
 
 Install packages:
-```bash
+```
 yarn add
 ```
 
 When installation is complete, launch project:
-```bash
+```
 expo start
 ```
 
