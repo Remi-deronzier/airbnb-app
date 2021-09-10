@@ -20,13 +20,18 @@ Be sure, you have installed all dependencies and applications to run React Nativ
 
 ### Running the project
 Clone this repository:
-```sh
+```bash
 git clone https://github.com/Remi-deronzier/airbnb-app.git
 cd airbnb-app
 ```
 
 Install packages:
-```sh
+```bash
 yarn add
+```
+
+When installation is complete, launch project:
+```bash
+expo start
 ```
 
