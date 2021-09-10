@@ -19,6 +19,8 @@ Note that if you've got an Iphone, you must log to the following `Expo` account 
 ## Overview
 This project is a replica of [Airbnb app](https://apps.apple.com/us/app/airbnb/id401626263), when the project was made (2021). 3 screens are availables : Home, Around Me and My profile. No frameworks UI like Bootstrap or Material UI are used.
 
+Backend project is here: 👉 [Backend](https://github.com/Remi-deronzier/airbnb-api)
+
 ## Screenshots
 <p align="center">
     <img width="252" alt="Screenshot 2021-09-10 at 16 56 16" src="https://user-images.githubusercontent.com/49198371/132874101-044f146e-b436-4fe8-98f8-e79870b08744.png">
