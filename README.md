@@ -41,7 +41,7 @@ Install packages:
 yarn add
 ```
 
-When installation is complete, launch project:
+When installation is complete, launch the project:
 ```
 expo start
 ```
