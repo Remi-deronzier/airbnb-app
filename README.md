@@ -23,10 +23,10 @@ Clone this repository:
 ```sh
 git clone https://github.com/Remi-deronzier/airbnb-app.git
 cd airbnb-app
-``
+```
 
 Install packages:
 ```sh
 yarn add
-``
+```
 
