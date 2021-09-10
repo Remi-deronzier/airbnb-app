@@ -16,7 +16,9 @@ Replica of Airbnb app. 3 screens are availables : Home, Around Me and My profile
   <div margin-right="20px">
     <img width="253" margin-right="20px" alt="Screenshot 2021-09-10 at 16 57 22" src="https://user-images.githubusercontent.com/49198371/132874127-fac64361-f9ba-48c4-bf79-67390529805d.png">
   </div>
-  <img width="248" alt="Screenshot 2021-09-10 at 16 54 53" src="https://user-images.githubusercontent.com/49198371/132873764-b94fe642-1116-49eb-b4c8-2cb3e8bc203f.png">
+  <div>
+    <img width="248" alt="Screenshot 2021-09-10 at 16 54 53" src="https://user-images.githubusercontent.com/49198371/132873764-b94fe642-1116-49eb-b4c8-2cb3e8bc203f.png">
+  </div>
 </div>
 
 
