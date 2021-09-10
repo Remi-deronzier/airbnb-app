@@ -17,7 +17,7 @@ Note that if you've got an Iphone, you must log to the following `Expo` account 
 
 
 ## Overview
-Replica of Airbnb app. 3 screens are availables : Home, Around Me and My profile. No frameworks UI like Bootstrap or Material UI are used.
+This project is a replica of [Airbnb app](https://apps.apple.com/us/app/airbnb/id401626263), when the project was made (2021). 3 screens are availables : Home, Around Me and My profile. No frameworks UI like Bootstrap or Material UI are used.
 
 ## Screenshots
 <p align="center">
