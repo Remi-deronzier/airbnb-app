@@ -15,4 +15,18 @@ Replica of Airbnb app. 3 screens are availables : Home, Around Me and My profile
     <img width="248" alt="Screenshot 2021-09-10 at 16 54 53" src="https://user-images.githubusercontent.com/49198371/132873764-b94fe642-1116-49eb-b4c8-2cb3e8bc203f.png">
 </p>
 
+## Installation and usage
+Be sure, you have installed all dependencies and applications to run React Native project on your computer : [Getting Started with React Native](https://reactnative.dev/docs/getting-started).
+
+### Running the project
+Clone this repository:
+```sh
+git clone https://github.com/Remi-deronzier/airbnb-app.git
+cd airbnb-app
+``
+
+Install packages:
+```sh
+yarn add
+``
 
