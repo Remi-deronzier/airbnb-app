@@ -12,8 +12,8 @@
 2. Then, go to this [page](https://expo.dev/@remi-airbnb/airbnb-remi) to check the app
 
 Note that if you've got an Iphone, you must log to the following `Expo` account : 
-* ID : remi-airbnb
-* Password : $7.$.Cmspy7fGHY
+* ID: remi-airbnb
+* Password: $7.$.Cmspy7fGHY
 
 
 ## Overview
