@@ -40,7 +40,7 @@ cd airbnb-app
 
 Install packages:
 ```
-yarn add
+yarn install
 ```
 
 When installation is complete, launch the project:
